@@ -320,7 +320,8 @@ module MoSQL
       when Sequel::SQL::Blob
         "\\\\x" + [val].pack("h*")
       else
-        val.to_s.gsub(/([\\\t\n\r])/, '\\\\\\1')
+        # new configuration format
+        val.to_s.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').gsub(/([\\\t\n\r])/, '\\\\\\1')
       end
     end
 
